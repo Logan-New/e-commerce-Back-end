@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connections');
+const sequelize = require('../config/connection.js'); // Adjust the path if needed
 
 class Product extends Model {}
 
@@ -33,17 +33,14 @@ Product.init(
     category_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'category',
+        model: 'Category',
         key: 'id',
       },
     },
   },
   {
     sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'product',
+    modelName: 'Product',
   }
 );
 

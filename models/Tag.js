@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connections.js');
+const sequelize = require('../config/connection.js'); // Adjust the path if needed
 
 class Tag extends Model {}
 
@@ -17,10 +17,7 @@ Tag.init(
   },
   {
     sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'tag',
+    modelName: 'Tag',
   }
 );
 

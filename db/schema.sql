@@ -1,6 +1,8 @@
--- DROP DATABASE
-DROP DATABASE IF EXISTS ecommerce_db;
+-- Connect to the desired database
+\c postgres;
 
--- CREATE DATABASE
-CREATE DATABASE ecommerce_db;
-
+-- Create the ecommerce database with specific settings
+CREATE DATABASE ecommerce_db
+WITH OWNER = your_user
+ENCODING = 'UTF8'
+CONNECTION LIMIT = -1;
