@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
-// The `/api/products` endpoint
-
-// get all products
+// GET /api/products - Get all products
 router.get('/', async (req, res) => {
   try {
     const products = await Product.findAll({
@@ -11,9 +9,50 @@ router.get('/', async (req, res) => {
     });
     res.status(200).json(products);
   } catch (err) {
-    res.status(500).json(err);
+    console.error('Error fetching products:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
+
+// POST /api/products - Create a new product
+router.post('/', async (req, res) => {
+  const { product_name, price, stock, category_id, tagIds } = req.body;
+
+  console.log('Request body:', req.body);
+
+  if (!product_name || !price || !stock || !category_id) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+    // Create new product
+    const newProduct = await Product.create({
+      product_name,
+      price,
+      stock,
+      category_id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    // Add tags if provided
+    if (tagIds && tagIds.length > 0) {
+      const productTags = tagIds.map(tagId => ({
+        productId: newProduct.id,
+        tagId
+      }));
+      await ProductTag.bulkCreate(productTags);
+    }
+
+    res.status(201).json(newProduct);
+  } catch (err) {
+    console.error('Error creating product:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+module.exports = router;
+
 
 // get one product
 router.get('/:id', async (req, res) => {
