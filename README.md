@@ -1,23 +1,23 @@
-##E-Commerce Backend
-#Table of Contents
-#Description
-#Installation
-#Usage
-#Routes
-#Category Routes
-#Product Routes
-#Tag Routes
-#Database Models
-#Category
-#Product
-#Tag
-#ProductTag
-#Seeding the Database
-#Environment Variables
-#License
-#Contributing
-#Questions
-##Description
+## E-Commerce Backend
+# Table of Contents
+# Description
+# Installation
+# Usage
+# Routes
+# Category Routes
+# Product Routes
+# Tag Routes
+# Database Models
+# Category
+# Product
+# Tag
+# ProductTag
+# Seeding the Database
+# Environment Variables
+# License
+# Contributing
+# Questions
+## Description
 This project is a backend for an e-commerce platform, built using Node.js, Express, Sequelize, and PostgreSQL. The API allows you to perform CRUD operations on products, categories, and tags. It is designed to handle a robust relational database with models for products, categories, tags, and the relationships between them.
 
 Installation
@@ -145,7 +145,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-Questions
-If you have any questions about the repo, open an issue or contact me directly at your_email@example.com. You can find more of my work at your GitHub username.
 
