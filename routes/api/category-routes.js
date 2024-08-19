@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     res.status(200).json(categoryData);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Failed to retrieve categories', error: err });
   }
 });
 
@@ -29,60 +29,71 @@ router.get('/:id', async (req, res) => {
     res.status(200).json(categoryData);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Failed to retrieve category', error: err });
   }
 });
 
 // POST create a new category
 router.post('/', async (req, res) => {
   try {
+    // Validate that `category_name` is provided
+    if (!req.body.category_name) {
+      return res.status(400).json({ message: 'Category name is required' });
+    }
+
     const newCategory = await Category.create(req.body);
-    res.status(200).json(newCategory);
+    res.status(201).json(newCategory);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Failed to create category', error: err });
   }
 });
 
 // PUT update a category by id
 router.put('/:id', async (req, res) => {
   try {
-    const updatedCategory = await Category.update(req.body, {
+    // Validate that `category_name` is provided
+    if (!req.body.category_name) {
+      return res.status(400).json({ message: 'Category name is required' });
+    }
+
+    const [updated] = await Category.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
 
-    if (!updatedCategory) {
+    if (updated === 0) {
       res.status(404).json({ message: 'No category found with this id!' });
       return;
     }
 
+    const updatedCategory = await Category.findByPk(req.params.id);
     res.status(200).json(updatedCategory);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Failed to update category', error: err });
   }
 });
 
 // DELETE a category by id
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedCategory = await Category.destroy({
+    const deleted = await Category.destroy({
       where: {
         id: req.params.id,
       },
     });
 
-    if (!deletedCategory) {
+    if (deleted === 0) {
       res.status(404).json({ message: 'No category found with this id!' });
       return;
     }
 
-    res.status(200).json(deletedCategory);
+    res.status(204).end();
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Failed to delete category', error: err });
   }
 });
 
